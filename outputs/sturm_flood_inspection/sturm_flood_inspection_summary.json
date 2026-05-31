@@ -1,0 +1,86 @@
+{
+  "dataset_id": "sturm_flood",
+  "dataset_name": "STURM-Flood",
+  "task_type": "flood_extent_mapping",
+  "problem_type": "semantic_segmentation",
+  "data_format": "GeoTIFF",
+  "tile_size": [
+    128,
+    128
+  ],
+  "spatial_resolution_m": 10,
+  "sentinel1": {
+    "image_count": 21602,
+    "floodmap_count": 21602,
+    "metadata_rows": 21602,
+    "bands": [
+      "VV",
+      "VH"
+    ],
+    "expected_band_count": 2
+  },
+  "sentinel2": {
+    "image_count": 2675,
+    "floodmap_count": 2675,
+    "metadata_rows": 2675,
+    "bands": [
+      "B2",
+      "B3",
+      "B4",
+      "B8",
+      "B5",
+      "B6",
+      "B7",
+      "B11",
+      "B12"
+    ],
+    "expected_band_count": 9
+  },
+  "pairing_check": [
+    {
+      "dataset": "sentinel1",
+      "image_files": 21602,
+      "floodmap_files": 21602,
+      "metadata_rows": 21602,
+      "images_without_floodmaps": 0,
+      "floodmaps_without_images": 0,
+      "images_missing_from_metadata": 0,
+      "metadata_rows_missing_image_file": 0
+    },
+    {
+      "dataset": "sentinel2",
+      "image_files": 2675,
+      "floodmap_files": 2675,
+      "metadata_rows": 2675,
+      "images_without_floodmaps": 0,
+      "floodmaps_without_images": 0,
+      "images_missing_from_metadata": 0,
+      "metadata_rows_missing_image_file": 0
+    }
+  ],
+  "mask_classes": {
+    "0": "coastline / area of interest",
+    "1": "flooded area",
+    "2": "river-related features",
+    "3": "open water",
+    "4": "reservoirs",
+    "5": "lakes",
+    "99": "no data"
+  },
+  "binary_water_mapping": {
+    "non_water": [
+      0
+    ],
+    "water": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "no_data": [
+      99
+    ]
+  },
+  "framework_relevance": "STURM-Flood is used as the second dataset to test raster-mask semantic segmentation support in the common disaster remote sensing benchmarking framework."
+}

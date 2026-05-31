@@ -1,0 +1,66 @@
+{
+  "dataset_id": "sturm_flood",
+  "dataset_name": "STURM-Flood",
+  "dataset_path": "datasets/sturm_flood_raw",
+  "task_type": "flood_extent_mapping",
+  "problem_type": "semantic_segmentation",
+  "data_format": "GeoTIFF",
+  "tile_size": [128, 128],
+  "spatial_resolution_m": 10,
+
+  "sentinel1": {
+    "image_folder": "Sentinel1/S1",
+    "floodmap_folder": "Sentinel1/Floodmaps",
+    "metadata_file": "sentinel1_metadata.csv",
+    "image_bands": ["VV", "VH"],
+    "expected_band_count": 2,
+    "expected_tile_count": 21602
+  },
+
+  "sentinel2": {
+    "image_folder": "Sentinel2/S2",
+    "floodmap_folder": "Sentinel2/Floodmaps",
+    "metadata_file": "sentinel2_metadata.csv",
+    "image_bands": ["B2", "B3", "B4", "B8", "B5", "B6", "B7", "B11", "B12"],
+    "expected_band_count": 9,
+    "expected_tile_count": 2675
+  },
+
+  "annotation": {
+    "annotation_type": "raster_mask",
+    "geometry_type": "mask",
+    "mask_format": "GeoTIFF",
+    "expected_mask_band_count": 1,
+
+    "original_mask_values": {
+      "0": "coastline_or_area_of_interest",
+      "1": "flooded_area",
+      "2": "river_related_features",
+      "3": "open_water",
+      "4": "reservoirs",
+      "5": "lakes",
+      "99": "no_data"
+    },
+
+    "binary_water_mapping": {
+      "non_water": [0],
+      "water": [1, 2, 3, 4, 5],
+      "no_data": [99]
+    }
+  },
+
+  "metadata_columns": [
+    "ems_code",
+    "aoi_code",
+    "floodmap_id",
+    "event_type",
+    "country",
+    "tile_id",
+    "epsg_code",
+    "floodmap_date",
+    "sentinel_date_or_timestamp"
+  ],
+
+  "loader_name": "STURMFloodLoader"
+}
+
