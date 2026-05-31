@@ -1,0 +1,23 @@
+# Python environment
+.venv/
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Raw datasets should never be committed
+datasets/
+
+# Large raw remote sensing files
+*.tif
+*.tiff
+*.zip
+*.tar
+*.tar.gz
+*.npy
+*.npz
+
+# System files
+.DS_Store
+Thumbs.db
