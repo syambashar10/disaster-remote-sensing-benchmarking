@@ -1,4 +1,3 @@
- <<'EOF'
 # Disaster Remote Sensing Dataset Benchmarking Framework
 
 This repository is an early-stage research and engineering framework for organizing, inspecting, and standardizing disaster remote sensing datasets.
@@ -135,5 +134,4 @@ Research Goal
 The broader goal is to develop a reproducible disaster remote sensing dataset benchmarking and standardization framework that can support multiple datasets, annotation types, and metadata formats.
 
 This project is being developed with the aim of producing both a useful engineering toolkit and a publishable research contribution.
-EOF
 
