@@ -1,0 +1,30 @@
+{
+  "test_name": "sturm_flood_converter_tests",
+  "max_samples_per_sensor": 20,
+  "sentinel1": {
+    "sensor": "sentinel1",
+    "total_loader_samples": 21602,
+    "tested_samples": 20,
+    "binary_unique_values_seen": [
+      0,
+      1
+    ],
+    "total_polygons": 72,
+    "total_bboxes": 72,
+    "errors": [],
+    "error_count": 0
+  },
+  "sentinel2": {
+    "sensor": "sentinel2",
+    "total_loader_samples": 2675,
+    "tested_samples": 20,
+    "binary_unique_values_seen": [
+      0,
+      1
+    ],
+    "total_polygons": 180,
+    "total_bboxes": 180,
+    "errors": [],
+    "error_count": 0
+  }
+}

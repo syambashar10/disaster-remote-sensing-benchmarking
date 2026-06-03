@@ -1,0 +1,20 @@
+{
+  "test_name": "export_dataset_cli_test",
+  "dataset": "sturm_flood",
+  "sensor": "sentinel1",
+  "formats_tested": [
+    "geojson",
+    "coco_segmentation",
+    "yolo_segmentation",
+    "mask_segmentation",
+    "yolo_detection_bbox"
+  ],
+  "outputs": {
+    "geojson": "outputs/cli_tests/sturm_s1.geojson",
+    "coco_segmentation": "outputs/cli_tests/sturm_s1_coco.json",
+    "yolo_segmentation": "outputs/cli_tests/yolo_segmentation_s1",
+    "mask_segmentation": "outputs/cli_tests/masks_s1",
+    "yolo_detection_bbox": "outputs/cli_tests/yolo_detection_s1"
+  },
+  "status": "passed"
+}

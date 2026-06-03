@@ -1,0 +1,277 @@
+{
+  "sentinel1": {
+    "pairing": {
+      "image_files": 21602,
+      "mask_files": 21602,
+      "metadata_rows": 21602,
+      "images_without_masks": 0,
+      "masks_without_images": 0,
+      "images_without_metadata": 0,
+      "metadata_without_images": 0,
+      "indexed_samples": 21602
+    },
+    "statistics": {
+      "dataset_id": "sturm_flood",
+      "sensor": "sentinel1",
+      "mask_mode": "original",
+      "counts": {
+        "image_files": 21602,
+        "mask_files": 21602,
+        "metadata_rows": 21602,
+        "images_without_masks": 0,
+        "masks_without_images": 0,
+        "images_without_metadata": 0,
+        "metadata_without_images": 0,
+        "indexed_samples": 21602
+      },
+      "task_type": "semantic_segmentation",
+      "raw_annotation_type": "raster_mask",
+      "recommended_formats": [
+        "mask_segmentation",
+        "coco_segmentation",
+        "yolo_segmentation",
+        "geojson",
+        "statistics"
+      ],
+      "lossy_formats": [
+        "yolo_detection_bbox",
+        "coco_detection_bbox"
+      ],
+      "mask_values_found_in_first_100_samples": [
+        0,
+        1,
+        2,
+        4,
+        5
+      ],
+      "first_sample_summary": {
+        "sample_id": "EMSR260_02VIADANA_2_1_2_2",
+        "image_width": 128,
+        "image_height": 128,
+        "image_band_count": 2,
+        "image_dtypes": [
+          "float32",
+          "float32"
+        ],
+        "image_crs": "EPSG:32632"
+      }
+    },
+    "sample_0": {
+      "dataset_id": "sturm_flood",
+      "sample_id": "EMSR260_02VIADANA_2_1_2_2",
+      "sensor": "sentinel1",
+      "task_type": "semantic_segmentation",
+      "image": {
+        "path": "datasets/sturm_flood_raw/Sentinel1/S1/EMSR260_02VIADANA_2_1_2_2.tif",
+        "width": 128,
+        "height": 128,
+        "band_count": 2,
+        "dtypes": [
+          "float32",
+          "float32"
+        ],
+        "crs": "EPSG:32632",
+        "bounds": {
+          "left": 620220.0,
+          "bottom": 4973850.0,
+          "right": 621500.0,
+          "top": 4975130.0
+        }
+      },
+      "annotations": [
+        {
+          "type": "segmentation_mask",
+          "geometry_type": "raster_mask",
+          "mask_path": "datasets/sturm_flood_raw/Sentinel1/Floodmaps/EMSR260_02VIADANA_2_1_2_2.tif",
+          "mask_mode": "original",
+          "mask_values": {
+            "0": "coastline_or_area_of_interest",
+            "1": "flooded_area",
+            "2": "river_related_features",
+            "3": "open_water",
+            "4": "reservoirs",
+            "5": "lakes",
+            "99": "no_data"
+          },
+          "raw_mask_values_found_in_file": [
+            0,
+            2,
+            5
+          ],
+          "binary_water_mapping": {
+            "non_water": [
+              0
+            ],
+            "water": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "no_data": [
+              99
+            ]
+          }
+        }
+      ],
+      "metadata": {
+        "Unnamed: 0": 0,
+        "ems_code": "EMSR260",
+        "aoi_code": "02VIADANA",
+        "floodmap_id": "EMSR260_02VIADANA_DEL_MONIT01_v2",
+        "event_type": "Riverine flood",
+        "country": "Italy",
+        "tile_id": "EMSR260_02VIADANA_2_1_2_2.tif",
+        "epsg_code": 32632,
+        "floodmap_date": "2017-12-14 05:10:00",
+        "sentinel_date": "2017-12-12 05:27:24"
+      }
+    }
+  },
+  "sentinel2": {
+    "pairing": {
+      "image_files": 2675,
+      "mask_files": 2675,
+      "metadata_rows": 2675,
+      "images_without_masks": 0,
+      "masks_without_images": 0,
+      "images_without_metadata": 0,
+      "metadata_without_images": 0,
+      "indexed_samples": 2675
+    },
+    "statistics": {
+      "dataset_id": "sturm_flood",
+      "sensor": "sentinel2",
+      "mask_mode": "original",
+      "counts": {
+        "image_files": 2675,
+        "mask_files": 2675,
+        "metadata_rows": 2675,
+        "images_without_masks": 0,
+        "masks_without_images": 0,
+        "images_without_metadata": 0,
+        "metadata_without_images": 0,
+        "indexed_samples": 2675
+      },
+      "task_type": "semantic_segmentation",
+      "raw_annotation_type": "raster_mask",
+      "recommended_formats": [
+        "mask_segmentation",
+        "coco_segmentation",
+        "yolo_segmentation",
+        "geojson",
+        "statistics"
+      ],
+      "lossy_formats": [
+        "yolo_detection_bbox",
+        "coco_detection_bbox"
+      ],
+      "mask_values_found_in_first_100_samples": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "first_sample_summary": {
+        "sample_id": "EMSR279_03ALFARO_17_16_1_1",
+        "image_width": 128,
+        "image_height": 128,
+        "image_band_count": 9,
+        "image_dtypes": [
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64"
+        ],
+        "image_crs": "EPSG:32630"
+      }
+    },
+    "sample_0": {
+      "dataset_id": "sturm_flood",
+      "sample_id": "EMSR279_03ALFARO_17_16_1_1",
+      "sensor": "sentinel2",
+      "task_type": "semantic_segmentation",
+      "image": {
+        "path": "datasets/sturm_flood_raw/Sentinel2/S2/EMSR279_03ALFARO_17_16_1_1.tif",
+        "width": 128,
+        "height": 128,
+        "band_count": 9,
+        "dtypes": [
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64",
+          "float64"
+        ],
+        "crs": "EPSG:32630",
+        "bounds": {
+          "left": 596421.000714,
+          "bottom": 4676670.6029,
+          "right": 597701.000714,
+          "top": 4677950.6029
+        }
+      },
+      "annotations": [
+        {
+          "type": "segmentation_mask",
+          "geometry_type": "raster_mask",
+          "mask_path": "datasets/sturm_flood_raw/Sentinel2/Floodmaps/EMSR279_03ALFARO_17_16_1_1.tif",
+          "mask_mode": "original",
+          "mask_values": {
+            "0": "coastline_or_area_of_interest",
+            "1": "flooded_area",
+            "2": "river_related_features",
+            "3": "open_water",
+            "4": "reservoirs",
+            "5": "lakes",
+            "99": "no_data"
+          },
+          "raw_mask_values_found_in_file": [
+            0,
+            1,
+            2
+          ],
+          "binary_water_mapping": {
+            "non_water": [
+              0
+            ],
+            "water": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "no_data": [
+              99
+            ]
+          }
+        }
+      ],
+      "metadata": {
+        "Unnamed: 0": 0,
+        "ems_code": "EMSR279",
+        "aoi_code": "03ALFARO",
+        "floodmap_id": "EMSR279_03ALFARO_DEL_v1",
+        "event_type": "Riverine flood",
+        "country": "Spain",
+        "tile_id": "EMSR279_03ALFARO_17_16_1_1.tif",
+        "epsg_code": 32630,
+        "floodmap_date": "2018-04-14 20:03:00",
+        "sentinel_timestamp": "2018-04-14 10:56:51"
+      }
+    }
+  }
+}

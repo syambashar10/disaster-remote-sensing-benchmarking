@@ -1,0 +1,328 @@
+{
+  "dataset_id": "sturm_flood",
+  "verification_type": "full_dataset_scan",
+  "dataset_root": "datasets/sturm_flood_raw",
+  "sensors": {
+    "sentinel1": {
+      "sensor": "sentinel1",
+      "paths": {
+        "image_dir": "datasets/sturm_flood_raw/Sentinel1/S1",
+        "mask_dir": "datasets/sturm_flood_raw/Sentinel1/Floodmaps",
+        "metadata_file": "datasets/sturm_flood_raw/sentinel1_metadata.csv"
+      },
+      "counts": {
+        "image_files": 21602,
+        "mask_files": 21602,
+        "metadata_rows": 21602,
+        "indexed_samples": 21602
+      },
+      "pairing": {
+        "images_without_masks": 0,
+        "masks_without_images": 0,
+        "images_without_metadata": 0,
+        "metadata_without_images": 0
+      },
+      "metadata": {
+        "columns": [
+          "Unnamed: 0",
+          "ems_code",
+          "aoi_code",
+          "floodmap_id",
+          "event_type",
+          "country",
+          "tile_id",
+          "epsg_code",
+          "floodmap_date",
+          "sentinel_date"
+        ],
+        "shape": [
+          21602,
+          10
+        ],
+        "duplicate_tile_id_count": 0,
+        "event_type_counts": {
+          "Riverine flood": 15487,
+          "Flash flood": 5709,
+          "Coastal flood": 349,
+          "Ice jam flood": 57
+        },
+        "country_counts": {
+          "Australia": 3450,
+          "Ireland": 3028,
+          "Iran, Islamic Republic of": 2396,
+          "Germany": 2280,
+          "France": 1703,
+          "Madagascar": 1341,
+          "Pakistan": 1089,
+          "Croatia": 920,
+          "Togo": 829,
+          "Spain": 705,
+          "Slovakia": 625,
+          "Uganda": 618,
+          "Mexico": 612,
+          "Italy": 393,
+          "Greece": 304,
+          "Albania": 293,
+          "United Kingdom": 195,
+          "Bosnia and Herzegovina": 167,
+          "Ukraine": 155,
+          "Romania": 129
+        },
+        "epsg_code_counts": {
+          "32629": 3028,
+          "32632": 2843,
+          "32631": 2527,
+          "32754": 2462,
+          "32638": 1960,
+          "32633": 1791,
+          "32738": 1341,
+          "32642": 1089,
+          "32630": 852,
+          "32756": 802,
+          "32615": 612,
+          "32635": 588,
+          "32636": 558,
+          "32641": 354,
+          "32634": 350,
+          "32755": 186,
+          "32751": 108,
+          "32640": 91,
+          "32736": 60
+        }
+      },
+      "raster_distributions": {
+        "image_size_counts": {
+          "128x128": 21602
+        },
+        "mask_size_counts": {
+          "128x128": 21602
+        },
+        "image_band_count_counts": {
+          "2": 21602
+        },
+        "mask_band_count_counts": {
+          "1": 21602
+        },
+        "image_dtype_counts": {
+          "('float32', 'float32')": 21602
+        },
+        "mask_dtype_counts": {
+          "('uint8',)": 21602
+        },
+        "image_crs_counts": {
+          "EPSG:32632": 2843,
+          "EPSG:32631": 2527,
+          "EPSG:32634": 350,
+          "EPSG:32633": 1791,
+          "EPSG:32630": 852,
+          "EPSG:32635": 588,
+          "EPSG:32754": 2462,
+          "EPSG:32638": 1960,
+          "EPSG:32640": 91,
+          "EPSG:32641": 354,
+          "EPSG:32738": 1341,
+          "EPSG:32629": 3028,
+          "EPSG:32636": 558,
+          "EPSG:32736": 60,
+          "EPSG:32615": 612,
+          "EPSG:32751": 108,
+          "EPSG:32756": 802,
+          "EPSG:32755": 186,
+          "EPSG:32642": 1089
+        },
+        "mask_crs_counts": {
+          "EPSG:32632": 2843,
+          "EPSG:32631": 2527,
+          "EPSG:32634": 350,
+          "EPSG:32633": 1791,
+          "EPSG:32630": 852,
+          "EPSG:32635": 588,
+          "EPSG:32754": 2462,
+          "EPSG:32638": 1960,
+          "EPSG:32640": 91,
+          "EPSG:32641": 354,
+          "EPSG:32738": 1341,
+          "EPSG:32629": 3028,
+          "EPSG:32636": 558,
+          "EPSG:32736": 60,
+          "EPSG:32615": 612,
+          "EPSG:32751": 108,
+          "EPSG:32756": 802,
+          "EPSG:32755": 186,
+          "EPSG:32642": 1089
+        },
+        "image_nodata_counts": {
+          "0.0": 21602
+        },
+        "mask_nodata_counts": {
+          "99.0": 21602
+        }
+      },
+      "mask_values_global": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anomaly_count": 0
+    },
+    "sentinel2": {
+      "sensor": "sentinel2",
+      "paths": {
+        "image_dir": "datasets/sturm_flood_raw/Sentinel2/S2",
+        "mask_dir": "datasets/sturm_flood_raw/Sentinel2/Floodmaps",
+        "metadata_file": "datasets/sturm_flood_raw/sentinel2_metadata.csv"
+      },
+      "counts": {
+        "image_files": 2675,
+        "mask_files": 2675,
+        "metadata_rows": 2675,
+        "indexed_samples": 2675
+      },
+      "pairing": {
+        "images_without_masks": 0,
+        "masks_without_images": 0,
+        "images_without_metadata": 0,
+        "metadata_without_images": 0
+      },
+      "metadata": {
+        "columns": [
+          "Unnamed: 0",
+          "ems_code",
+          "aoi_code",
+          "floodmap_id",
+          "event_type",
+          "country",
+          "tile_id",
+          "epsg_code",
+          "floodmap_date",
+          "sentinel_timestamp"
+        ],
+        "shape": [
+          2675,
+          10
+        ],
+        "duplicate_tile_id_count": 0,
+        "event_type_counts": {
+          "Flash flood": 1697,
+          "Riverine flood": 807,
+          "Coastal flood": 171
+        },
+        "country_counts": {
+          "Togo": 623,
+          "Mexico": 461,
+          "Spain": 397,
+          "Australia": 310,
+          "Greece": 190,
+          "France": 187,
+          "Iran, Islamic Republic of": 107,
+          "Moldova, Republic of, Romania, Ukraine": 95,
+          "Madagascar": 56,
+          "United Kingdom": 52,
+          "Pakistan": 42,
+          "Finland": 35,
+          "Albania": 31,
+          "Sweden": 24,
+          "Italy": 22,
+          "Malawi": 15,
+          "Norway": 12,
+          "Uganda": 9,
+          "Ukraine": 7
+        },
+        "epsg_code_counts": {
+          "32631": 693,
+          "32615": 461,
+          "32630": 455,
+          "32634": 216,
+          "32755": 191,
+          "32635": 154,
+          "32632": 111,
+          "32756": 107,
+          "32641": 104,
+          "32739": 48,
+          "32633": 46,
+          "32642": 42,
+          "32736": 24,
+          "32754": 12,
+          "32738": 8,
+          "32640": 3
+        }
+      },
+      "raster_distributions": {
+        "image_size_counts": {
+          "128x128": 2675
+        },
+        "mask_size_counts": {
+          "128x128": 2675
+        },
+        "image_band_count_counts": {
+          "9": 2675
+        },
+        "mask_band_count_counts": {
+          "1": 2675
+        },
+        "image_dtype_counts": {
+          "('float64', 'float64', 'float64', 'float64', 'float64', 'float64', 'float64', 'float64', 'float64')": 2675
+        },
+        "mask_dtype_counts": {
+          "('int32',)": 2675
+        },
+        "image_crs_counts": {
+          "EPSG:32630": 455,
+          "EPSG:32631": 693,
+          "EPSG:32635": 154,
+          "EPSG:32633": 46,
+          "EPSG:32640": 3,
+          "EPSG:32641": 104,
+          "EPSG:32738": 8,
+          "EPSG:32739": 48,
+          "EPSG:32736": 24,
+          "EPSG:32634": 216,
+          "EPSG:32632": 111,
+          "EPSG:32615": 461,
+          "EPSG:32755": 191,
+          "EPSG:32754": 12,
+          "EPSG:32756": 107,
+          "EPSG:32642": 42
+        },
+        "mask_crs_counts": {
+          "EPSG:32630": 455,
+          "EPSG:32631": 693,
+          "EPSG:32635": 154,
+          "EPSG:32633": 46,
+          "EPSG:32640": 3,
+          "EPSG:32641": 104,
+          "EPSG:32738": 8,
+          "EPSG:32739": 48,
+          "EPSG:32736": 24,
+          "EPSG:32634": 216,
+          "EPSG:32632": 111,
+          "EPSG:32615": 461,
+          "EPSG:32755": 191,
+          "EPSG:32754": 12,
+          "EPSG:32756": 107,
+          "EPSG:32642": 42
+        },
+        "image_nodata_counts": {
+          "None": 2565,
+          "nan": 110
+        },
+        "mask_nodata_counts": {
+          "99.0": 2675
+        }
+      },
+      "mask_values_global": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "anomaly_count": 0
+    }
+  },
+  "total_anomaly_count": 0
+}
