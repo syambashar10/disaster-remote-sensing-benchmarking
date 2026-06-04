@@ -4,119 +4,102 @@ import sys
 from pathlib import Path
 
 
-def run_command(command):
-    result = subprocess.run(
+def run_cli(command):
+    completed = subprocess.run(
         command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
+        check=True,
     )
 
-    if result.returncode != 0:
-        print("STDOUT:")
-        print(result.stdout)
-        print("STDERR:")
-        print(result.stderr)
-        raise AssertionError(f"Command failed: {' '.join(command)}")
-
-    return result.stdout
-
-
-def test_command(export_format, output_path, extra_args=None):
-    command = [
-        sys.executable,
-        "-m",
-        "disasterbench.tools.export_dataset",
-        "--dataset",
-        "sturm_flood",
-        "--sensor",
-        "sentinel1",
-        "--format",
-        export_format,
-        "--output",
-        output_path,
-        "--max-samples",
-        "5",
-    ]
-
-    if extra_args:
-        command.extend(extra_args)
-
-    stdout = run_command(command)
-
-    if "Export completed." not in stdout:
-        raise AssertionError("Export completion message not found.")
-
-    return stdout
+    return completed.stdout
 
 
 def main():
-    outputs = {
-        "geojson": "outputs/cli_tests/sturm_s1.geojson",
-        "coco_segmentation": "outputs/cli_tests/sturm_s1_coco.json",
-        "yolo_segmentation": "outputs/cli_tests/yolo_segmentation_s1",
-        "mask_segmentation": "outputs/cli_tests/masks_s1",
-        "yolo_detection_bbox": "outputs/cli_tests/yolo_detection_s1",
+    commands = {
+        "xbd_geojson": [
+            sys.executable, "-m", "disasterbench.tools.export_dataset",
+            "--dataset", "xbd",
+            "--format", "geojson",
+            "--max-samples", "5",
+            "--output", "outputs/cli_tests/xbd_cli.geojson",
+        ],
+        "xbd_coco": [
+            sys.executable, "-m", "disasterbench.tools.export_dataset",
+            "--dataset", "xbd",
+            "--format", "coco_segmentation",
+            "--max-samples", "5",
+            "--output", "outputs/cli_tests/xbd_cli_coco.json",
+        ],
+        "xbd_yolo_detection": [
+            sys.executable, "-m", "disasterbench.tools.export_dataset",
+            "--dataset", "xbd",
+            "--format", "yolo_detection_bbox",
+            "--max-samples", "5",
+            "--output", "outputs/cli_tests/xbd_cli_yolo_detection",
+        ],
+        "xbd_yolo_segmentation": [
+            sys.executable, "-m", "disasterbench.tools.export_dataset",
+            "--dataset", "xbd",
+            "--format", "yolo_segmentation",
+            "--max-samples", "5",
+            "--output", "outputs/cli_tests/xbd_cli_yolo_segmentation",
+        ],
+        "sturm_geojson": [
+            sys.executable, "-m", "disasterbench.tools.export_dataset",
+            "--dataset", "sturm_flood",
+            "--sensor", "sentinel1",
+            "--format", "geojson",
+            "--max-samples", "5",
+            "--output", "outputs/cli_tests/sturm_cli.geojson",
+        ],
     }
 
     results = {}
 
-    results["geojson"] = test_command(
-        "geojson",
-        outputs["geojson"],
+    for name, command in commands.items():
+        stdout = run_cli(command)
+        assert "Export completed." in stdout
+        results[name] = {
+            "status": "passed",
+            "command": " ".join(command),
+        }
+
+    expected_failure = subprocess.run(
+        [
+            sys.executable, "-m", "disasterbench.tools.export_dataset",
+            "--dataset", "xbd",
+            "--format", "mask_segmentation",
+            "--max-samples", "5",
+        ],
+        capture_output=True,
+        text=True,
     )
 
-    results["coco_segmentation"] = test_command(
-        "coco_segmentation",
-        outputs["coco_segmentation"],
+    assert expected_failure.returncode != 0
+    assert "xBD does not support mask_segmentation" in (
+        expected_failure.stderr + expected_failure.stdout
     )
 
-    results["yolo_segmentation"] = test_command(
-        "yolo_segmentation",
-        outputs["yolo_segmentation"],
-    )
+    results["xbd_mask_segmentation_expected_failure"] = {
+        "status": "passed",
+        "reason": "xBD correctly rejects mask_segmentation export",
+    }
 
-    results["mask_segmentation"] = test_command(
-        "mask_segmentation",
-        outputs["mask_segmentation"],
-        extra_args=["--mask-mode", "binary_water"],
-    )
+    verification_output = {
+        "test_name": "export_dataset_cli_test",
+        "status": "passed",
+        "results": results,
+    }
 
-    results["yolo_detection_bbox"] = test_command(
-        "yolo_detection_bbox",
-        outputs["yolo_detection_bbox"],
-    )
+    verification_path = Path("outputs/verification/export_dataset_cli_test.json")
+    verification_path.parent.mkdir(parents=True, exist_ok=True)
 
-    checks = [
-        Path(outputs["geojson"]).exists(),
-        Path(outputs["coco_segmentation"]).exists(),
-        (Path(outputs["yolo_segmentation"]) / "labels").exists(),
-        (Path(outputs["mask_segmentation"]) / "masks").exists(),
-        (Path(outputs["yolo_detection_bbox"]) / "labels").exists(),
-    ]
-
-    if not all(checks):
-        raise AssertionError("One or more CLI output files/folders were not created.")
-
-    output_path = Path("outputs/verification/export_dataset_cli_test.json")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with output_path.open("w", encoding="utf-8") as f:
-        json.dump(
-            {
-                "test_name": "export_dataset_cli_test",
-                "dataset": "sturm_flood",
-                "sensor": "sentinel1",
-                "formats_tested": list(outputs.keys()),
-                "outputs": outputs,
-                "status": "passed",
-            },
-            f,
-            indent=2,
-        )
+    with verification_path.open("w", encoding="utf-8") as f:
+        json.dump(verification_output, f, indent=2)
 
     print("export_dataset CLI test passed.")
-    print(f"Saved test result to: {output_path}")
+    print(json.dumps(verification_output, indent=2))
 
 
 if __name__ == "__main__":

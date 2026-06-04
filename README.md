@@ -15,9 +15,15 @@ Raw dataset
 
 ## Current Dataset Integration
 
-The current implementation focuses on STURM-Flood, a raster-mask flood extent mapping dataset with Sentinel-1 and Sentinel-2 imagery.
+The current implementation supports two dataset types: STURM-Flood, a raster-mask flood extent mapping dataset, and xBD / xView2, a polygon-based building damage assessment dataset.
 
 The STURM-Flood pipeline supports dataset verification, image-mask-metadata pairing checks, common schema loading, raster mask conversion, visual conversion quality checks, GeoJSON export, COCO segmentation export, YOLO segmentation export, YOLO detection bounding box export, original and binary mask export, and a user-facing export command.
+
+
+## Supported Datasets
+
+- STURM-Flood: raster-mask flood extent mapping with Sentinel-1 and Sentinel-2 imagery
+- xBD / xView2: polygon-based building damage assessment with pre/post-disaster imagery
 
 ## Supported STURM-Flood Sensors
 
@@ -67,6 +73,23 @@ Export binary water masks:
       --mask-mode binary_water \
       --max-samples 100
 
+
+## xBD Export Examples
+
+Export xBD to COCO segmentation:
+
+    python -m disasterbench.tools.export_dataset \
+      --dataset xbd \
+      --format coco_segmentation \
+      --max-samples 100
+
+Export xBD to YOLO detection:
+
+    python -m disasterbench.tools.export_dataset \
+      --dataset xbd \
+      --format yolo_detection_bbox \
+      --max-samples 100
+
 ## Verification
 
 The STURM-Flood integration was verified using real dataset files. The verification workflow checks file counts, metadata structure, image-mask-metadata pairing, raster dimensions, band counts, data types, CRS information, bounds and transform alignment, mask values, and conversion validity.
@@ -94,9 +117,10 @@ Verification outputs are saved under:
 
 ## Documentation
 
-Detailed STURM-Flood pipeline documentation is available at:
+Detailed dataset pipeline documentation is available at:
 
     docs/sturm_flood_pipeline_status.md
+    docs/xbd_pipeline_status.md
 
 ## Extension Pattern
 
