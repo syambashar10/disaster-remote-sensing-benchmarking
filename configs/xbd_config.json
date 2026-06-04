@@ -1,0 +1,45 @@
+{
+  "dataset_id": "xbd",
+  "dataset_name": "xBD / xView2",
+  "dataset_path": "datasets/xbd_raw",
+  "task_type": [
+    "building_damage_assessment",
+    "object_detection",
+    "instance_segmentation",
+    "change_analysis"
+  ],
+  "raw_annotation_type": "polygon",
+  "image_format": "png",
+  "annotation_format": "json_wkt",
+  "split_structure": {
+    "train_images": "train/images",
+    "train_labels": "train/labels",
+    "train_targets": "train/targets"
+  },
+  "expected_image_size": {
+    "width": 1024,
+    "height": 1024
+  },
+  "feature_type": "building",
+  "damage_classes": [
+    "no-damage",
+    "minor-damage",
+    "major-damage",
+    "destroyed",
+    "un-classified",
+    "no_damage_label"
+  ],
+  "recommended_formats": [
+    "coco_detection",
+    "coco_instance_segmentation",
+    "yolo_detection",
+    "yolo_segmentation",
+    "geojson",
+    "statistics"
+  ],
+  "unsupported_formats": [
+    "semantic_flood_mask"
+  ],
+  "loader_name": "XBDLoader",
+  "status": "linked_from_probation_work_refactor_in_progress"
+}
