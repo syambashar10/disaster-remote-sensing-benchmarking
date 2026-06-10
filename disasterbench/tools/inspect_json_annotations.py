@@ -35,6 +35,16 @@ def main() -> None:
     )
 
     parser.add_argument(
+        "--max-list-items-per-list",
+        type=int,
+        default=None,
+        help=(
+            "Optional limit for nested JSON list traversal. "
+            "If omitted, all list items are inspected exactly."
+        ),
+    )
+
+    parser.add_argument(
         "--output",
         default=None,
         help="Optional output JSON path.",
@@ -45,6 +55,7 @@ def main() -> None:
     result = inspect_json_annotations(
         json_root=args.json_root,
         max_files=args.max_files,
+        max_list_items_per_list=args.max_list_items_per_list,
     )
 
     result_dict = result.to_dict()

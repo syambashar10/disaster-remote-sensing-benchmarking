@@ -57,7 +57,9 @@ class JsonAnnotationInspectionResult:
     empty_json_content_files: int
     scan_limited: bool
     max_files: Optional[int]
+    max_list_items_per_list: Optional[int]
     top_level_key_counts: Dict[str, int] = field(default_factory=dict)
+    list_truncation_counts: Dict[str, int] = field(default_factory=dict)
     nested_key_path_counts: Dict[str, int] = field(default_factory=dict)
     empty_list_path_counts: Dict[str, int] = field(default_factory=dict)
     annotation_signal_counts: Dict[str, int] = field(default_factory=dict)
@@ -99,6 +101,8 @@ def walk_json_structure(
     empty_list_path_counts: Counter[str],
     geometry_like_key_counts: Counter[str],
     class_like_key_counts: Counter[str],
+    list_truncation_counts: Counter[str],
+    max_list_items_per_list: Optional[int],
 ) -> None:
     """Recursively count key paths and common annotation-related keys."""
 
@@ -123,13 +127,23 @@ def walk_json_structure(
                 empty_list_path_counts,
                 geometry_like_key_counts,
                 class_like_key_counts,
+                list_truncation_counts,
+                max_list_items_per_list,
             )
 
     elif isinstance(value, list):
-        if len(value) == 0:
-            empty_list_path_counts[path_prefix or "[root]"] += 1
+        list_path = path_prefix or "[root]"
 
-        for item in value[:50]:
+        if len(value) == 0:
+            empty_list_path_counts[list_path] += 1
+
+        if max_list_items_per_list is not None and len(value) > max_list_items_per_list:
+            list_truncation_counts[list_path] += 1
+            items_to_walk = value[:max_list_items_per_list]
+        else:
+            items_to_walk = value
+
+        for item in items_to_walk:
             walk_json_structure(
                 item,
                 path_prefix,
@@ -137,6 +151,8 @@ def walk_json_structure(
                 empty_list_path_counts,
                 geometry_like_key_counts,
                 class_like_key_counts,
+                list_truncation_counts,
+                max_list_items_per_list,
             )
 
 
@@ -177,6 +193,7 @@ def detect_annotation_signals(data: Any) -> List[str]:
 def inspect_json_annotations(
     json_root: str | Path,
     max_files: Optional[int] = None,
+    max_list_items_per_list: Optional[int] = None,
 ) -> JsonAnnotationInspectionResult:
     """
     Inspect JSON files below a root folder.
@@ -184,6 +201,8 @@ def inspect_json_annotations(
     Args:
         json_root: Folder containing JSON annotation files.
         max_files: Optional limit for faster discovery scans.
+        max_list_items_per_list: Optional limit for large nested JSON lists.
+            If None, all list items are inspected exactly.
 
     Returns:
         JsonAnnotationInspectionResult
@@ -201,6 +220,7 @@ def inspect_json_annotations(
             empty_json_content_files=0,
             scan_limited=False,
             max_files=max_files,
+            max_list_items_per_list=max_list_items_per_list,
             read_errors=[
                 JsonReadError(
                     path=str(root),
@@ -223,6 +243,7 @@ def inspect_json_annotations(
     annotation_signal_counts: Counter[str] = Counter()
     geometry_like_key_counts: Counter[str] = Counter()
     class_like_key_counts: Counter[str] = Counter()
+    list_truncation_counts: Counter[str] = Counter()
     examples: Dict[str, List[str]] = {}
 
     valid_json_files = 0
@@ -263,6 +284,8 @@ def inspect_json_annotations(
             empty_list_path_counts=empty_list_path_counts,
             geometry_like_key_counts=geometry_like_key_counts,
             class_like_key_counts=class_like_key_counts,
+            list_truncation_counts=list_truncation_counts,
+            max_list_items_per_list=max_list_items_per_list,
         )
 
         for signal in detect_annotation_signals(data):
@@ -278,7 +301,9 @@ def inspect_json_annotations(
         empty_json_content_files=empty_json_content_files,
         scan_limited=max_files is not None and total_json_files > max_files,
         max_files=max_files,
+        max_list_items_per_list=max_list_items_per_list,
         top_level_key_counts=dict(sorted(top_level_key_counts.items())),
+        list_truncation_counts=dict(sorted(list_truncation_counts.items())),
         nested_key_path_counts=dict(sorted(nested_key_path_counts.items())),
         empty_list_path_counts=dict(sorted(empty_list_path_counts.items())),
         annotation_signal_counts=dict(sorted(annotation_signal_counts.items())),

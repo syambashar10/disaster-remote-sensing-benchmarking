@@ -117,3 +117,45 @@ def test_inspect_json_annotations_cli_writes_output(tmp_path):
     assert file_data["annotation_signal_counts"]["coco_like_annotations_list"] == 1
     assert file_data["geometry_like_key_counts"]["bbox"] == 1
     assert file_data["class_like_key_counts"]["category_id"] == 1
+
+
+def test_json_annotation_inspector_counts_full_lists_by_default(tmp_path):
+    labels_dir = tmp_path / "labels"
+    labels_dir.mkdir()
+
+    records = [
+        {"wkt": f"POLYGON (({i} 0, {i+1} 0, {i+1} 1, {i} 0))", "label": "building"}
+        for i in range(75)
+    ]
+
+    (labels_dir / "large_list.json").write_text(
+        json.dumps({"features": {"xy": records}}),
+        encoding="utf-8",
+    )
+
+    result = inspect_json_annotations(labels_dir)
+
+    assert result.geometry_like_key_counts["wkt"] == 75
+    assert result.class_like_key_counts["label"] == 75
+    assert result.list_truncation_counts == {}
+
+
+def test_json_annotation_inspector_can_limit_nested_list_traversal(tmp_path):
+    labels_dir = tmp_path / "labels"
+    labels_dir.mkdir()
+
+    records = [
+        {"wkt": f"POLYGON (({i} 0, {i+1} 0, {i+1} 1, {i} 0))", "label": "building"}
+        for i in range(75)
+    ]
+
+    (labels_dir / "large_list.json").write_text(
+        json.dumps({"features": {"xy": records}}),
+        encoding="utf-8",
+    )
+
+    result = inspect_json_annotations(labels_dir, max_list_items_per_list=50)
+
+    assert result.geometry_like_key_counts["wkt"] == 50
+    assert result.class_like_key_counts["label"] == 50
+    assert result.list_truncation_counts["features.xy"] == 1
