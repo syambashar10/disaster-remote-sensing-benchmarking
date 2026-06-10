@@ -306,7 +306,12 @@ def inspect_dataset_config(
     folder_counts: Counter[str] = Counter()
     for path in all_files:
         relative = path.relative_to(dataset_root)
-        top_level = relative.parts[0] if relative.parts else "."
+
+        if len(relative.parts) <= 1:
+            top_level = "."
+        else:
+            top_level = relative.parts[0]
+
         folder_counts[top_level] += 1
 
     report.folder_counts = dict(sorted(folder_counts.items()))

@@ -162,3 +162,25 @@ def test_inspect_dataset_cli_writes_outputs(tmp_path):
     assert output["blocking_issues"] is False
     assert output["human_review_required"] is True
     assert (tmp_path / "runs" / "cli_inspection_test").exists()
+
+
+def test_generic_inspector_counts_root_level_files_under_dot(tmp_path):
+    dataset_root = tmp_path / "fake_sturm"
+    (dataset_root / "Sentinel1" / "S1").mkdir(parents=True)
+    (dataset_root / "Sentinel1" / "S1" / "sample_001.tif").write_bytes(b"fake tif")
+    (dataset_root / "Sentinel1_metadata.csv").write_text(
+        "tile_id,value\nsample_001,1\n",
+        encoding="utf-8",
+    )
+
+    config = {
+        "dataset_id": "sturm_flood",
+        "dataset_path": str(dataset_root),
+        "task_type": "flood_extent_mapping",
+    }
+
+    report = inspect_dataset_config(config)
+
+    assert report.folder_counts["Sentinel1"] == 1
+    assert report.folder_counts["."] == 1
+    assert "Sentinel1_metadata.csv" not in report.folder_counts
