@@ -41,5 +41,30 @@
     "semantic_flood_mask"
   ],
   "loader_name": "XBDLoader",
-  "status": "linked_from_probation_work_refactor_in_progress"
+  "status": "linked_from_probation_work_refactor_in_progress",
+  "pairing_checks": [
+    {
+      "name": "xbd_image_label_target_pairing",
+      "reference_root": "train/images",
+      "reference_extensions": [
+        ".png"
+      ],
+      "candidate_roots": {
+        "labels": "train/labels",
+        "targets": "train/targets"
+      },
+      "candidate_extensions": {
+        "labels": [
+          ".json"
+        ],
+        "targets": [
+          ".png"
+        ]
+      },
+      "strip_suffixes": [
+        "_target"
+      ],
+      "max_examples": 20
+    }
+  ]
 }
