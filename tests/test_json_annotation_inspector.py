@@ -159,3 +159,58 @@ def test_json_annotation_inspector_can_limit_nested_list_traversal(tmp_path):
     assert result.geometry_like_key_counts["wkt"] == 50
     assert result.class_like_key_counts["label"] == 50
     assert result.list_truncation_counts["features.xy"] == 1
+
+
+def test_json_annotation_inspector_counts_class_like_values(tmp_path):
+    labels_dir = tmp_path / "labels"
+    labels_dir.mkdir()
+
+    (labels_dir / "sample.json").write_text(
+        json.dumps(
+            {
+                "features": {
+                    "xy": [
+                        {"properties": {"subtype": "destroyed", "feature_type": "building"}},
+                        {"properties": {"subtype": "minor-damage", "feature_type": "building"}},
+                        {"properties": {"subtype": "destroyed", "feature_type": "building"}},
+                    ]
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = inspect_json_annotations(labels_dir)
+
+    assert result.value_inventory_counts["features.xy.properties.subtype"] == {
+        "destroyed": 2,
+        "minor-damage": 1,
+    }
+    assert result.value_inventory_counts["features.xy.properties.feature_type"] == {
+        "building": 3,
+    }
+
+
+def test_json_annotation_inspector_counts_numeric_label_values(tmp_path):
+    labels_dir = tmp_path / "labels"
+    labels_dir.mkdir()
+
+    (labels_dir / "sample.json").write_text(
+        json.dumps(
+            {
+                "annotations": [
+                    {"category_id": 1, "bbox": [0, 0, 10, 10]},
+                    {"category_id": 2, "bbox": [0, 0, 10, 10]},
+                    {"category_id": 1, "bbox": [0, 0, 10, 10]},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    result = inspect_json_annotations(labels_dir)
+
+    assert result.value_inventory_counts["annotations.category_id"] == {
+        "1": 2,
+        "2": 1,
+    }

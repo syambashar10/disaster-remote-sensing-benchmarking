@@ -3,7 +3,8 @@ Reusable JSON annotation inspector.
 
 This module inspects JSON annotation files without assuming a specific dataset.
 It detects structure, common annotation signals, invalid JSON files, top-level
-keys, nested key paths, empty lists, and possible label/geometry fields.
+keys, nested key paths, empty lists, possible label/geometry fields, and value
+inventories for class-like fields.
 
 It does not approve semantic meanings.
 """
@@ -59,12 +60,13 @@ class JsonAnnotationInspectionResult:
     max_files: Optional[int]
     max_list_items_per_list: Optional[int]
     top_level_key_counts: Dict[str, int] = field(default_factory=dict)
-    list_truncation_counts: Dict[str, int] = field(default_factory=dict)
     nested_key_path_counts: Dict[str, int] = field(default_factory=dict)
     empty_list_path_counts: Dict[str, int] = field(default_factory=dict)
     annotation_signal_counts: Dict[str, int] = field(default_factory=dict)
     geometry_like_key_counts: Dict[str, int] = field(default_factory=dict)
     class_like_key_counts: Dict[str, int] = field(default_factory=dict)
+    value_inventory_counts: Dict[str, Dict[str, int]] = field(default_factory=dict)
+    list_truncation_counts: Dict[str, int] = field(default_factory=dict)
     example_files: Dict[str, List[str]] = field(default_factory=dict)
     read_errors: List[JsonReadError] = field(default_factory=list)
 
@@ -78,6 +80,15 @@ def is_empty_json_content(value: Any) -> bool:
     """Return True for structurally empty JSON content."""
 
     return value in ({}, [], None)
+
+
+def scalar_value_to_text(value: Any) -> Optional[str]:
+    """Convert simple JSON scalar values into stable inventory strings."""
+
+    if isinstance(value, (str, int, float, bool)) or value is None:
+        return str(value)
+
+    return None
 
 
 def add_example(
@@ -101,6 +112,7 @@ def walk_json_structure(
     empty_list_path_counts: Counter[str],
     geometry_like_key_counts: Counter[str],
     class_like_key_counts: Counter[str],
+    value_inventory_counts: Dict[str, Counter[str]],
     list_truncation_counts: Counter[str],
     max_list_items_per_list: Optional[int],
 ) -> None:
@@ -120,15 +132,20 @@ def walk_json_structure(
             if key_lower in CLASS_LIKE_KEYS:
                 class_like_key_counts[key_text] += 1
 
+                scalar_value = scalar_value_to_text(nested_value)
+                if scalar_value is not None:
+                    value_inventory_counts.setdefault(full_path, Counter())[scalar_value] += 1
+
             walk_json_structure(
-                nested_value,
-                full_path,
-                nested_key_path_counts,
-                empty_list_path_counts,
-                geometry_like_key_counts,
-                class_like_key_counts,
-                list_truncation_counts,
-                max_list_items_per_list,
+                value=nested_value,
+                path_prefix=full_path,
+                nested_key_path_counts=nested_key_path_counts,
+                empty_list_path_counts=empty_list_path_counts,
+                geometry_like_key_counts=geometry_like_key_counts,
+                class_like_key_counts=class_like_key_counts,
+                value_inventory_counts=value_inventory_counts,
+                list_truncation_counts=list_truncation_counts,
+                max_list_items_per_list=max_list_items_per_list,
             )
 
     elif isinstance(value, list):
@@ -145,14 +162,15 @@ def walk_json_structure(
 
         for item in items_to_walk:
             walk_json_structure(
-                item,
-                path_prefix,
-                nested_key_path_counts,
-                empty_list_path_counts,
-                geometry_like_key_counts,
-                class_like_key_counts,
-                list_truncation_counts,
-                max_list_items_per_list,
+                value=item,
+                path_prefix=path_prefix,
+                nested_key_path_counts=nested_key_path_counts,
+                empty_list_path_counts=empty_list_path_counts,
+                geometry_like_key_counts=geometry_like_key_counts,
+                class_like_key_counts=class_like_key_counts,
+                value_inventory_counts=value_inventory_counts,
+                list_truncation_counts=list_truncation_counts,
+                max_list_items_per_list=max_list_items_per_list,
             )
 
 
@@ -243,6 +261,7 @@ def inspect_json_annotations(
     annotation_signal_counts: Counter[str] = Counter()
     geometry_like_key_counts: Counter[str] = Counter()
     class_like_key_counts: Counter[str] = Counter()
+    value_inventory_counts: Dict[str, Counter[str]] = {}
     list_truncation_counts: Counter[str] = Counter()
     examples: Dict[str, List[str]] = {}
 
@@ -284,6 +303,7 @@ def inspect_json_annotations(
             empty_list_path_counts=empty_list_path_counts,
             geometry_like_key_counts=geometry_like_key_counts,
             class_like_key_counts=class_like_key_counts,
+            value_inventory_counts=value_inventory_counts,
             list_truncation_counts=list_truncation_counts,
             max_list_items_per_list=max_list_items_per_list,
         )
@@ -303,12 +323,16 @@ def inspect_json_annotations(
         max_files=max_files,
         max_list_items_per_list=max_list_items_per_list,
         top_level_key_counts=dict(sorted(top_level_key_counts.items())),
-        list_truncation_counts=dict(sorted(list_truncation_counts.items())),
         nested_key_path_counts=dict(sorted(nested_key_path_counts.items())),
         empty_list_path_counts=dict(sorted(empty_list_path_counts.items())),
         annotation_signal_counts=dict(sorted(annotation_signal_counts.items())),
         geometry_like_key_counts=dict(sorted(geometry_like_key_counts.items())),
         class_like_key_counts=dict(sorted(class_like_key_counts.items())),
+        value_inventory_counts={
+            path: dict(sorted(counter.items()))
+            for path, counter in sorted(value_inventory_counts.items())
+        },
+        list_truncation_counts=dict(sorted(list_truncation_counts.items())),
         example_files=examples,
         read_errors=read_errors,
     )
