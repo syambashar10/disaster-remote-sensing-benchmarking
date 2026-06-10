@@ -165,6 +165,7 @@ def run_paired_raster_checks(
     config: Dict[str, Any],
     dataset_root: str | Path,
     output_dir: str | Path,
+    max_pairs: Optional[int] = None,
 ) -> List[PipelineCheckRecord]:
     records: List[PipelineCheckRecord] = []
 
@@ -194,7 +195,7 @@ def run_paired_raster_checks(
                 reference_extensions=check.get("reference_extensions", [".tif", ".tiff"]),
                 candidate_extensions=check.get("candidate_extensions", [".tif", ".tiff"]),
                 strip_suffixes=check.get("strip_suffixes", []),
-                max_pairs=check.get("max_pairs"),
+                max_pairs=max_pairs if max_pairs is not None else check.get("max_pairs"),
                 transform_tolerance=check.get("transform_tolerance", 1e-9),
             )
 
@@ -240,6 +241,7 @@ def run_dataset_verification_pipeline(
     config_path: str | Path,
     output_root: str | Path = "outputs/runs",
     run_id: Optional[str] = None,
+    max_pairs: Optional[int] = None,
 ) -> DatasetVerificationPipelineResult:
     config = load_dataset_config(config_path)
     dataset_id = str(config.get("dataset_id") or "unknown_dataset")
@@ -253,6 +255,7 @@ def run_dataset_verification_pipeline(
         extra_metadata={
             "tool": "dataset_verification_pipeline",
             "config_path": str(config_path),
+            "max_pairs": max_pairs,
         },
     )
 
@@ -292,6 +295,7 @@ def run_dataset_verification_pipeline(
             config=config,
             dataset_root=dataset_root,
             output_dir=verification_dir / "paired_rasters",
+            max_pairs=max_pairs,
         )
     )
 

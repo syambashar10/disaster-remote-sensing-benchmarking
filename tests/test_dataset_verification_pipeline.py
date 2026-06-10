@@ -131,6 +131,8 @@ def test_verify_dataset_cli_outputs_report(tmp_path):
             str(tmp_path / "runs"),
             "--run-id",
             "cli_pipeline_test",
+            "--max-pairs",
+            "5",
         ],
         check=True,
         capture_output=True,

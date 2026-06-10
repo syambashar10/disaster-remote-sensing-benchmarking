@@ -24,6 +24,12 @@ def main() -> None:
     parser.add_argument("--config", required=True)
     parser.add_argument("--output-root", default="outputs/runs")
     parser.add_argument("--run-id", default=None)
+    parser.add_argument(
+        "--max-pairs",
+        type=int,
+        default=None,
+        help="Optional limit for paired raster checks. Use for sample/quick verification.",
+    )
 
     args = parser.parse_args()
 
@@ -31,6 +37,7 @@ def main() -> None:
         config_path=args.config,
         output_root=args.output_root,
         run_id=args.run_id,
+        max_pairs=args.max_pairs,
     )
 
     print(json.dumps(result.to_dict(), indent=2))
