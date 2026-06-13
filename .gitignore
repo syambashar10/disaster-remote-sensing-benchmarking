@@ -1,35 +1,56 @@
-# Python environment
-.venv/
-venv/
-env/
-
-# Python cache
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+.env.*
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Raw datasets should never be committed
-datasets/
-*.tif
-*.tiff
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Data and generated outputs
+datasets/raw/
+datasets/processed/
+datasets/external/
+outputs/
+runs/
+reports/
+
+# Large dataset/archive formats
 *.zip
 *.tar
 *.tar.gz
-*.npy
+*.tgz
+*.7z
+*.rar
+*.tif
+*.tiff
 *.npz
+*.h5
+*.hdf5
+
+# Temporary files
+*.tmp
+*.log
 
 # Generated outputs
-outputs/*
-!outputs/verification/
-!outputs/verification/*.json
-!outputs/verification/*.csv
-outputs/verification/*.log
-
-# OS files
-.DS_Store
-Thumbs.db
+outputs/
+runs/
+reports/
