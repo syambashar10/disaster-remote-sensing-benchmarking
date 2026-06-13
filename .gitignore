@@ -57,3 +57,6 @@ reports/
 
 # Local exploratory notebooks
 experiments/
+
+# Local dataset links/folders
+datasets/
