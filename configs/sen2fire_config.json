@@ -1,0 +1,83 @@
+{
+  "dataset_id": "sen2fire",
+  "dataset_name": "Sen2Fire",
+  "dataset_path": "/export/qcai-HumAI4SAT/RS_NDisaster_Datasets/04_sen2fire/extracted",
+  "task_type": [
+    "wildfire_detection",
+    "semantic_segmentation",
+    "binary_mask_prediction"
+  ],
+  "raw_annotation_type": "npz_array_mask",
+  "image_format": "npz",
+  "annotation_format": "npz_internal_label_array",
+  "data_family": "npz_multiband_semantic_segmentation",
+  "split_structure": {
+    "scene1": "scene1",
+    "scene2": "scene2",
+    "scene3": "scene3",
+    "scene4": "scene4"
+  },
+  "npz_schema": {
+    "image_key": "image",
+    "auxiliary_keys": [
+      "aerosol"
+    ],
+    "label_key": "label",
+    "image_shape": [
+      12,
+      512,
+      512
+    ],
+    "aerosol_shape": [
+      512,
+      512
+    ],
+    "label_shape": [
+      512,
+      512
+    ],
+    "image_dtype": "int16",
+    "aerosol_dtype": "float32",
+    "label_dtype": "uint8"
+  },
+  "label_schema": {
+    "label_values": {
+      "0": "background_or_non_fire",
+      "1": "fire_or_burned_area"
+    },
+    "human_review_required": true,
+    "notes": "The audit confirms binary label values 0 and 1. The exact semantic meaning of label 1 should be confirmed from the official dataset documentation or paper."
+  },
+  "audit_summary": {
+    "total_npz_files": 2466,
+    "scene_counts": {
+      "scene1": 864,
+      "scene2": 594,
+      "scene3": 504,
+      "scene4": 504
+    },
+    "files_with_positive_label": 349,
+    "files_with_only_background": 2117,
+    "label_pixel_counts": {
+      "0": 624556416,
+      "1": 21890688
+    },
+    "read_error_count": 0
+  },
+  "recommended_formats": [
+    "semantic_mask",
+    "segmentation_statistics",
+    "npz_repackaged_common_schema"
+  ],
+  "lossy_or_derived_formats": [
+    "bbox_from_mask",
+    "polygon_from_mask"
+  ],
+  "unsupported_formats": [
+    "native_coco_instance_segmentation",
+    "native_yolo_detection"
+  ],
+  "loader_name": "NPZSegmentationLoader",
+  "status": "downloaded_extracted_audited_needs_loader",
+  "human_review_required": true
+}
