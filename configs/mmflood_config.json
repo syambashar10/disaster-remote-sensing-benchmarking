@@ -63,6 +63,6 @@
     "native_yolo_detection"
   ],
   "loader_name": "RasterMaskPairLoader",
-  "status": "downloaded_extracted_structure_checked_needs_label_review",
+  "status": "configured_loadable_needs_label_review",
   "human_review_required": true
 }

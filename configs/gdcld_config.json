@@ -26,72 +26,108 @@
       "split": "train",
       "image_folder": "train_data/train_data",
       "mask_folder": "train_data/train_label",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "val",
       "split": "val",
       "image_folder": "val_data/val_data",
       "mask_folder": "val_data/val_label",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "test_lushan",
       "split": "test",
       "image_folder": "test_data/test_data/Lushan",
       "mask_folder": "test_data/test_label/Lushan",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "test_mesetas",
       "split": "test",
       "image_folder": "test_data/test_data/Mesetas",
       "mask_folder": "test_data/test_label/Mesetas",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "test_palu",
       "split": "test",
       "image_folder": "test_data/test_data/Palu",
       "mask_folder": "test_data/test_label/Palu",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "test_sumarta",
       "split": "test",
       "image_folder": "test_data/test_data/Sumarta",
       "mask_folder": "test_data/test_label/Sumarta",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "future_gansu_jishishan_loess_eq",
       "split": "future_work",
       "image_folder": "future_work/Future work/data/Gansu_jishishan_loess_EQ",
       "mask_folder": "future_work/Future work/label/Gansu_jishishan_loess_EQ",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "future_guangdong_meizhou_rainfall",
       "split": "future_work",
       "image_folder": "future_work/Future work/data/Guangdong_meizhou_rainfall",
       "mask_folder": "future_work/Future work/label/Guangdong_meizhou_rainfall",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     },
     {
       "name": "future_taiwan_huanlian_eq",
       "split": "future_work",
       "image_folder": "future_work/Future work/data/Taiwan_huanlian_EQ",
       "mask_folder": "future_work/Future work/label/Taiwan_huanlian_EQ",
-      "image_extensions": [".tif"],
-      "mask_extensions": [".tif"]
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
     }
   ],
   "audit_summary": {
@@ -118,6 +154,6 @@
     "native_yolo_detection"
   ],
   "loader_name": "RasterMaskPairLoader",
-  "status": "downloaded_extracted_discovered_needs_label_review",
+  "status": "configured_loadable_needs_label_review",
   "human_review_required": true
 }
