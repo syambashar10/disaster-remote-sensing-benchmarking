@@ -1,16 +1,16 @@
 {
   "dataset_id": "sen2fire",
   "dataset_name": "Sen2Fire",
-  "dataset_path": "/export/qcai-HumAI4SAT/RS_NDisaster_Datasets/04_sen2fire/extracted",
+  "dataset_path": "datasets/sen2fire_raw",
   "task_type": [
     "wildfire_detection",
     "semantic_segmentation",
     "binary_mask_prediction"
   ],
+  "data_family": "npz_multiband_semantic_segmentation",
   "raw_annotation_type": "npz_array_mask",
   "image_format": "npz",
   "annotation_format": "npz_internal_label_array",
-  "data_family": "npz_multiband_semantic_segmentation",
   "split_structure": {
     "scene1": "scene1",
     "scene2": "scene2",
@@ -46,7 +46,7 @@
       "1": "fire_or_burned_area"
     },
     "human_review_required": true,
-    "notes": "The audit confirms binary label values 0 and 1. The exact semantic meaning of label 1 should be confirmed from the official dataset documentation or paper."
+    "notes": "The framework audit confirms binary label values 0 and 1. The exact semantic meaning of label 1 should be confirmed from the official dataset documentation or paper."
   },
   "audit_summary": {
     "total_npz_files": 2466,
@@ -56,6 +56,11 @@
       "scene3": 504,
       "scene4": 504
     },
+    "key_combination": [
+      "aerosol",
+      "image",
+      "label"
+    ],
     "files_with_positive_label": 349,
     "files_with_only_background": 2117,
     "label_pixel_counts": {
