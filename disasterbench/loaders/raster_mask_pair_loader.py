@@ -86,10 +86,16 @@ class RasterMaskPairLoader(BaseDatasetLoader):
             raise FileNotFoundError(f"Dataset root does not exist: {self.dataset_root}")
 
         self.task_type = "semantic_segmentation"
-        self.pairing_groups = self.config.get("pairing_groups", [])
+
+        explicit_pairing_groups = self.config.get("pairing_groups", [])
+        template_pairing_groups = self._expand_pairing_group_templates()
+
+        self.pairing_groups = explicit_pairing_groups + template_pairing_groups
 
         if not self.pairing_groups:
-            raise ValueError("Config must contain at least one pairing group.")
+            raise ValueError(
+                "Config must contain at least one pairing group or pairing group template."
+            )
 
         self.label_values = _safe_int_key_dict(
             self.config.get("label_schema", {}).get("label_values", {})
@@ -99,6 +105,76 @@ class RasterMaskPairLoader(BaseDatasetLoader):
 
         if max_samples is not None:
             self.samples = self.samples[:max_samples]
+
+    def _expand_pairing_group_templates(self) -> List[Dict[str, Any]]:
+        """
+        Expand compact folder templates into explicit pairing groups.
+
+        This supports datasets where every event/folder has the same layout, for example:
+
+        dataset_root/
+        ├── event_001/
+        │   ├── s1_raw/
+        │   └── mask/
+        ├── event_002/
+        │   ├── s1_raw/
+        │   └── mask/
+
+        Instead of writing hundreds of groups manually, the config can define one template.
+        """
+        templates = self.config.get("pairing_group_templates", [])
+        expanded_groups: List[Dict[str, Any]] = []
+
+        for template in templates:
+            base_folder = template.get("base_folder", ".")
+            base_root = self.dataset_root / base_folder
+            event_glob = template.get("event_glob", "*")
+
+            image_subfolder = template["image_subfolder"]
+            mask_subfolder = template["mask_subfolder"]
+
+            name_prefix = template.get("name_prefix", "")
+            split = template.get("split", "all")
+
+            image_extensions = template.get("image_extensions", [".tif", ".tiff"])
+            mask_extensions = template.get("mask_extensions", [".tif", ".tiff"])
+
+            image_suffixes = template.get("image_suffixes_to_remove", [])
+            mask_suffixes = template.get("mask_suffixes_to_remove", [])
+
+            require_folders = template.get("require_folders", True)
+
+            if not base_root.exists():
+                continue
+
+            for event_dir in sorted(base_root.glob(event_glob)):
+                if not event_dir.is_dir():
+                    continue
+
+                image_folder = event_dir / image_subfolder
+                mask_folder = event_dir / mask_subfolder
+
+                if require_folders and (not image_folder.exists() or not mask_folder.exists()):
+                    continue
+
+                group_name = event_dir.name
+                if name_prefix:
+                    group_name = f"{name_prefix}_{group_name}"
+
+                expanded_groups.append(
+                    {
+                        "name": group_name,
+                        "split": split,
+                        "image_folder": str(image_folder.relative_to(self.dataset_root)),
+                        "mask_folder": str(mask_folder.relative_to(self.dataset_root)),
+                        "image_extensions": image_extensions,
+                        "mask_extensions": mask_extensions,
+                        "image_suffixes_to_remove": image_suffixes,
+                        "mask_suffixes_to_remove": mask_suffixes,
+                    }
+                )
+
+        return expanded_groups
 
     def _build_sample_index(self) -> List[Dict[str, Any]]:
         samples: List[Dict[str, Any]] = []

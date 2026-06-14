@@ -117,3 +117,57 @@ def test_raster_mask_pair_loader_detects_missing_mask(tmp_path: Path):
     assert pairing["valid"] is False
     assert pairing["total_missing_mask_count"] == 1
     assert pairing["groups"][0]["missing_mask_count"] == 1
+
+
+def test_raster_mask_pair_loader_expands_pairing_group_template(tmp_path: Path):
+    dataset_root = tmp_path / "dataset"
+
+    image = np.zeros((2, 16, 16), dtype=np.uint16)
+    mask = np.zeros((16, 16), dtype=np.uint8)
+    mask[0:2, 0:2] = 1
+
+    _write_raster(dataset_root / "EVENT001/s1_raw/tile_001.tif", image)
+    _write_raster(dataset_root / "EVENT001/mask/tile_001.tif", mask)
+
+    config = {
+        "dataset_id": "toy_template_raster",
+        "dataset_name": "Toy Template Raster Dataset",
+        "dataset_path": str(dataset_root),
+        "task_type": ["semantic_segmentation"],
+        "data_family": "raster_image_mask_pair",
+        "raw_annotation_type": "raster_mask",
+        "label_schema": {
+            "label_values": {
+                "0": "background",
+                "1": "positive",
+            }
+        },
+        "pairing_group_templates": [
+            {
+                "base_folder": ".",
+                "event_glob": "EVENT*",
+                "image_subfolder": "s1_raw",
+                "mask_subfolder": "mask",
+                "split": "all",
+                "image_extensions": [".tif"],
+                "mask_extensions": [".tif"]
+            }
+        ],
+    }
+
+    config_path = tmp_path / "template_config.json"
+    config_path.write_text(json.dumps(config), encoding="utf-8")
+
+    loader = RasterMaskPairLoader(config_path=config_path)
+
+    assert len(loader) == 1
+
+    pairing = loader.validate_pairing()
+    assert pairing["valid"] is True
+    assert pairing["group_count"] == 1
+    assert pairing["total_matched_count"] == 1
+
+    sample = loader.load_sample(0)
+    assert sample["dataset_id"] == "toy_template_raster"
+    assert sample["sample_id"] == "EVENT001__tile_001"
+    assert sample["metadata"]["group"] == "EVENT001"

@@ -1,0 +1,68 @@
+{
+  "dataset_id": "mmflood",
+  "dataset_name": "MMFlood",
+  "dataset_path": "datasets/mmflood_raw",
+  "task_type": [
+    "flood_mapping",
+    "semantic_segmentation",
+    "raster_mask_prediction"
+  ],
+  "data_family": "raster_image_mask_pair",
+  "raw_annotation_type": "raster_mask",
+  "image_format": "geotiff",
+  "annotation_format": "geotiff_mask",
+  "mask_mode": "original",
+  "label_schema": {
+    "label_values": {
+      "0": "background_or_non_flood",
+      "1": "flood_or_water_area"
+    },
+    "human_review_required": true,
+    "notes": "The dataset structure confirms s1_raw image tiles paired with mask tiles. Exact label semantics should be confirmed from the official MMFlood documentation or paper."
+  },
+  "pairing_group_templates": [
+    {
+      "base_folder": ".",
+      "event_glob": "EMSR*",
+      "image_subfolder": "s1_raw",
+      "mask_subfolder": "mask",
+      "split": "all",
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ],
+      "require_folders": true
+    }
+  ],
+  "auxiliary_data": {
+    "available_subfolders": [
+      "DEM",
+      "hydro"
+    ],
+    "notes": "DEM and hydro folders are available for events and can be added later as auxiliary raster inputs."
+  },
+  "audit_summary": {
+    "event_count": 333,
+    "s1_raw_files": 1748,
+    "mask_files": 1748,
+    "all_first_level_event_folders_have_dem_hydro_s1_mask": true
+  },
+  "recommended_formats": [
+    "semantic_mask",
+    "segmentation_statistics",
+    "raster_common_schema"
+  ],
+  "lossy_or_derived_formats": [
+    "bbox_from_mask",
+    "polygon_from_mask"
+  ],
+  "unsupported_formats": [
+    "native_coco_instance_segmentation",
+    "native_yolo_detection"
+  ],
+  "loader_name": "RasterMaskPairLoader",
+  "status": "downloaded_extracted_structure_checked_needs_label_review",
+  "human_review_required": true
+}
