@@ -1,58 +1,24 @@
 {
-  "datasets": {
-    "xbd": {
-      "name": "xBD / xView2",
-      "dataset_id": "xbd",
-      "config_path": "configs/xbd_config.json",
-      "loader_class": "XBDLoader",
-      "task_type": [
-        "building_damage_assessment",
-        "object_detection",
-        "instance_segmentation",
-        "change_analysis"
-      ],
-      "raw_annotation_type": "polygon",
-      "recommended_formats": [
-        "coco_detection",
-        "coco_instance_segmentation",
-        "yolo_detection",
-        "yolo_segmentation",
-        "geojson",
-        "statistics"
-      ],
-      "lossy_formats": [],
-      "unsupported_formats": [
-        "semantic_flood_mask"
-      ],
-      "status": "linked_from_probation_work_needs_refactor"
+  "registry_name": "DisasterBench dataset registry",
+  "version": "0.3",
+  "datasets": [
+    {
+      "dataset_id": "sen2fire",
+      "config_path": "configs/sen2fire_config.json",
+      "status": "configured_loadable",
+      "loader_family": "NPZSegmentationLoader"
     },
-    "sturm_flood": {
-      "name": "STURM-Flood",
-      "dataset_id": "sturm_flood",
-      "config_path": "configs/sturm_flood_config.json",
-      "loader_class": "STURMFloodLoader",
-      "task_type": [
-        "flood_extent_mapping",
-        "semantic_segmentation",
-        "binary_water_segmentation",
-        "multi_class_water_segmentation"
-      ],
-      "raw_annotation_type": "raster_mask",
-      "recommended_formats": [
-        "mask_segmentation",
-        "coco_segmentation",
-        "yolo_segmentation",
-        "geojson",
-        "statistics"
-      ],
-      "lossy_formats": [
-        "yolo_detection_bbox",
-        "coco_detection_bbox"
-      ],
-      "unsupported_formats": [
-        "building_damage_classification"
-      ],
-      "status": "inspection_completed_loader_next"
+    {
+      "dataset_id": "gdcld",
+      "config_path": "configs/gdcld_config.json",
+      "status": "configured_loadable",
+      "loader_family": "RasterMaskPairLoader"
+    },
+    {
+      "dataset_id": "mmflood",
+      "config_path": "configs/mmflood_config.json",
+      "status": "configured_loadable",
+      "loader_family": "RasterMaskPairLoader"
     }
-  }
+  ]
 }
