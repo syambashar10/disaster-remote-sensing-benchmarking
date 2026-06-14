@@ -1,0 +1,123 @@
+{
+  "dataset_id": "gdcld",
+  "dataset_name": "GDCLD",
+  "dataset_path": "datasets/gdcld_raw",
+  "task_type": [
+    "semantic_segmentation",
+    "raster_mask_prediction",
+    "disaster_change_mapping"
+  ],
+  "data_family": "raster_image_mask_pair",
+  "raw_annotation_type": "raster_mask",
+  "image_format": "geotiff",
+  "annotation_format": "geotiff_mask",
+  "mask_mode": "original",
+  "label_schema": {
+    "label_values": {
+      "0": "background_or_unchanged_area",
+      "1": "positive_disaster_or_change_area"
+    },
+    "human_review_required": true,
+    "notes": "The exact semantic meaning of the positive mask value should be confirmed from the official GDCLD documentation or paper."
+  },
+  "pairing_groups": [
+    {
+      "name": "train",
+      "split": "train",
+      "image_folder": "train_data/train_data",
+      "mask_folder": "train_data/train_label",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "val",
+      "split": "val",
+      "image_folder": "val_data/val_data",
+      "mask_folder": "val_data/val_label",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "test_lushan",
+      "split": "test",
+      "image_folder": "test_data/test_data/Lushan",
+      "mask_folder": "test_data/test_label/Lushan",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "test_mesetas",
+      "split": "test",
+      "image_folder": "test_data/test_data/Mesetas",
+      "mask_folder": "test_data/test_label/Mesetas",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "test_palu",
+      "split": "test",
+      "image_folder": "test_data/test_data/Palu",
+      "mask_folder": "test_data/test_label/Palu",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "test_sumarta",
+      "split": "test",
+      "image_folder": "test_data/test_data/Sumarta",
+      "mask_folder": "test_data/test_label/Sumarta",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "future_gansu_jishishan_loess_eq",
+      "split": "future_work",
+      "image_folder": "future_work/Future work/data/Gansu_jishishan_loess_EQ",
+      "mask_folder": "future_work/Future work/label/Gansu_jishishan_loess_EQ",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "future_guangdong_meizhou_rainfall",
+      "split": "future_work",
+      "image_folder": "future_work/Future work/data/Guangdong_meizhou_rainfall",
+      "mask_folder": "future_work/Future work/label/Guangdong_meizhou_rainfall",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    },
+    {
+      "name": "future_taiwan_huanlian_eq",
+      "split": "future_work",
+      "image_folder": "future_work/Future work/data/Taiwan_huanlian_EQ",
+      "mask_folder": "future_work/Future work/label/Taiwan_huanlian_EQ",
+      "image_extensions": [".tif"],
+      "mask_extensions": [".tif"]
+    }
+  ],
+  "audit_summary": {
+    "total_files": 31264,
+    "tif_files": 31260,
+    "png_files": 4,
+    "discovery_pairing_summary": {
+      "train_matched": 11162,
+      "val_matched": 4459,
+      "test_and_future_work_matched": true
+    }
+  },
+  "recommended_formats": [
+    "semantic_mask",
+    "segmentation_statistics",
+    "raster_common_schema"
+  ],
+  "lossy_or_derived_formats": [
+    "bbox_from_mask",
+    "polygon_from_mask"
+  ],
+  "unsupported_formats": [
+    "native_coco_instance_segmentation",
+    "native_yolo_detection"
+  ],
+  "loader_name": "RasterMaskPairLoader",
+  "status": "downloaded_extracted_discovered_needs_label_review",
+  "human_review_required": true
+}
