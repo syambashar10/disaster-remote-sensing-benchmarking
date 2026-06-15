@@ -204,7 +204,8 @@ unknownNot declared in the config
 Example:
 
 Sen2Fire supports semantic masks through NPZ label arrays.
-GDCLD and MMFlood support semantic masks through raster mask pairs.
+GDCLD, MMFlood, and STURM-Flood support semantic masks through raster mask pairs.
+xBD / xView2 supports polygon-based building annotations, COCO-style instance segmentation, YOLO-style detection/segmentation, GeoJSON, and statistics.
 COCO/YOLO detection exports are marked unsupported unless object-level annotations are available.
 Current design principle
 
