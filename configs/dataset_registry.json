@@ -19,6 +19,12 @@
       "config_path": "configs/mmflood_config.json",
       "status": "configured_loadable",
       "loader_family": "RasterMaskPairLoader"
+    },
+    {
+      "dataset_id": "xbd_kaggle",
+      "config_path": "configs/xbd_kaggle_config.json",
+      "status": "configured_loadable_needs_label_review",
+      "loader_family": "JsonPolygonLoader"
     }
   ]
 }

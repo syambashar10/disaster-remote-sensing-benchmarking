@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List
 
+from disasterbench.loaders.json_polygon_loader import JsonPolygonLoader
 from disasterbench.loaders.npz_segmentation_loader import NPZSegmentationLoader
 from disasterbench.loaders.raster_mask_pair_loader import RasterMaskPairLoader
 from disasterbench.loaders.sturm_flood_loader import STURMFloodLoader
@@ -11,6 +12,7 @@ from disasterbench.loaders.xbd_loader import XBDLoader
 
 
 SUPPORTED_CONFIG_LOADERS = {
+    "JsonPolygonLoader": JsonPolygonLoader,
     "NPZSegmentationLoader": NPZSegmentationLoader,
     "RasterMaskPairLoader": RasterMaskPairLoader,
     "STURMFloodLoader": STURMFloodLoader,
@@ -62,7 +64,7 @@ def create_loader_from_config(
             f"Supported loaders: {supported_loader_names()}"
         )
 
-    if loader_name in {"NPZSegmentationLoader", "RasterMaskPairLoader", "STURMFloodLoader"}:
+    if loader_name in {"JsonPolygonLoader", "NPZSegmentationLoader", "RasterMaskPairLoader", "STURMFloodLoader"}:
         loader_class = SUPPORTED_CONFIG_LOADERS[loader_name]
         return loader_class(config_path=config_path, **loader_kwargs)
 

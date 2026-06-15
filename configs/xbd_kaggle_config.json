@@ -37,10 +37,11 @@
     "statistics"
   ],
   "unsupported_formats": [
-    "semantic_flood_mask"
+    "semantic_flood_mask",
+    "native_raster_mask"
   ],
-  "loader_name": "XBDLoader",
-  "status": "kaggle_train_split_downloaded_on_qcri_server",
+  "loader_name": "JsonPolygonLoader",
+  "status": "configured_loadable_needs_label_review",
   "pairing_checks": [
     {
       "name": "xbd_kaggle_image_label_pairing",
@@ -58,5 +59,24 @@
       },
       "max_examples": 20
     }
-  ]
+  ],
+  "data_family": "json_polygon_annotations",
+  "human_review_required": true,
+  "json_polygon_schema": {
+    "image_folder": "images",
+    "label_folder": "labels",
+    "image_extensions": [
+      ".png"
+    ],
+    "label_extensions": [
+      ".json"
+    ],
+    "feature_container": "features.xy",
+    "wkt_key": "wkt",
+    "properties_key": "properties",
+    "class_key": "feature_type",
+    "damage_key": "subtype",
+    "uid_key": "uid"
+  },
+  "lossy_or_derived_formats": []
 }
