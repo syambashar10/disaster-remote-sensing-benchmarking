@@ -25,6 +25,12 @@
       "config_path": "configs/xbd_kaggle_config.json",
       "status": "configured_loadable_needs_label_review",
       "loader_family": "JsonPolygonLoader"
+    },
+    {
+      "dataset_id": "sturm_flood",
+      "config_path": "configs/sturm_flood_raster_pair_config.json",
+      "status": "configured_loadable_needs_label_review",
+      "loader_family": "RasterMaskPairLoader"
     }
   ]
 }

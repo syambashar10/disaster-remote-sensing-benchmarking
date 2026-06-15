@@ -1,0 +1,81 @@
+{
+  "dataset_id": "sturm_flood",
+  "dataset_name": "STURM-Flood",
+  "dataset_path": "datasets/sturm_flood_raw",
+  "loader_name": "RasterMaskPairLoader",
+  "data_family": "raster_image_mask_pair",
+  "task_type": [
+    "semantic_segmentation",
+    "flood_extent_mapping"
+  ],
+  "raw_annotation_type": "raster_mask",
+  "status": "configured_loadable_needs_label_review",
+  "human_review_required": true,
+  "pairing_groups": [
+    {
+      "name": "sentinel1",
+      "split": "all",
+      "image_folder": "Sentinel1/S1",
+      "mask_folder": "Sentinel1/Floodmaps",
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
+    },
+    {
+      "name": "sentinel2",
+      "split": "all",
+      "image_folder": "Sentinel2/S2",
+      "mask_folder": "Sentinel2/Floodmaps",
+      "image_extensions": [
+        ".tif"
+      ],
+      "mask_extensions": [
+        ".tif"
+      ]
+    }
+  ],
+  "label_schema": {
+    "label_values": {
+      "0": "coastline_or_area_of_interest",
+      "1": "flooded_area",
+      "2": "river_related_features",
+      "3": "open_water",
+      "4": "reservoirs",
+      "5": "lakes",
+      "99": "no_data"
+    },
+    "binary_water_mapping": {
+      "non_water": [
+        0
+      ],
+      "water": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "no_data": [
+        99
+      ]
+    },
+    "human_review_required": true,
+    "notes": "STURM-Flood masks contain multi-class water/flood labels. The exact downstream binary mapping should be reviewed before training or export."
+  },
+  "recommended_formats": [
+    "semantic_mask",
+    "segmentation_statistics",
+    "raster_common_schema"
+  ],
+  "lossy_or_derived_formats": [
+    "bbox_from_mask",
+    "polygon_from_mask"
+  ],
+  "unsupported_formats": [
+    "native_coco_instance_segmentation",
+    "native_yolo_detection"
+  ]
+}
