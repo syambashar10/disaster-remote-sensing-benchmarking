@@ -127,3 +127,96 @@ Detailed dataset pipeline documentation is available at:
 The framework is designed to support additional disaster remote sensing datasets through the same pattern: dataset configuration, dataset verification, dataset-specific loading, common schema mapping, reusable conversion, reusable export, testing, and documentation.
 
 This allows polygon-based, bounding-box-based, raster-mask-based, and metadata-rich datasets to be integrated into one consistent benchmarking and export framework.
+
+---
+
+## DisasterBench Registry Pipeline
+
+This project now supports a registry-driven dataset processing pipeline for disaster remote sensing datasets.
+
+The main idea is:
+
+```text
+dataset registry
+→ dataset config
+→ config-based loader factory
+→ generic loader family
+→ common internal schema
+→ JSONL common manifest
+→ manifest validation
+→ export capability matrix
+Supported loader families so far
+Loader familyPurposeExample datasets
+NPZSegmentationLoaderLoads NPZ-packaged semantic segmentation datasets where image and label arrays are inside .npz filesSen2Fire
+RasterMaskPairLoaderLoads raster image + raster mask datasets using paired GeoTIFF filesGDCLD, MMFlood
+
+This avoids writing one custom loader per dataset. Instead, datasets are described using config files, and reusable loader families handle common dataset structures.
+
+Registered datasets
+
+The dataset registry is located at:
+
+configs/dataset_registry.json
+
+Currently registered and validated datasets:
+
+DatasetLoaderStatus
+Sen2FireNPZSegmentationLoaderconfigured and loadable
+GDCLDRasterMaskPairLoaderconfigured and loadable
+MMFloodRasterMaskPairLoaderconfigured and loadable
+Run the full registry pipeline
+python -m disasterbench.tools.run_registry_pipeline \
+  --registry configs/dataset_registry.json \
+  --output-root ~/qcri_workspace/outputs/runs/full_registry_pipeline_sample_10 \
+  --max-samples 10
+
+The pipeline performs:
+
+Dataset config and loader validation
+Common manifest export
+Common manifest validation
+Export capability matrix generation
+Final pipeline report generation
+Main pipeline outputs
+full_registry_pipeline_sample_10/
+├── registry_pipeline_report.json
+├── validation/
+│   ├── dataset_config_loader_validation.json
+│   └── registry_manifest_validation_summary.json
+├── common_manifests/
+│   ├── sen2fire_common_manifest.jsonl
+│   ├── gdcld_common_manifest.jsonl
+│   ├── mmflood_common_manifest.jsonl
+│   └── registry_common_manifest_export_summary.json
+└── reports/
+    ├── dataset_capability_matrix.json
+    └── dataset_capability_matrix.md
+Capability matrix
+
+The framework records whether each dataset supports different output formats:
+
+Support levelMeaning
+supportedNative or recommended output format
+lossy_or_derivedPossible, but derived from another annotation type
+unsupportedNot safely supported from the current annotation type
+unknownNot declared in the config
+
+Example:
+
+Sen2Fire supports semantic masks through NPZ label arrays.
+GDCLD and MMFlood support semantic masks through raster mask pairs.
+COCO/YOLO detection exports are marked unsupported unless object-level annotations are available.
+Current design principle
+
+The framework is designed around reusable dataset families, not one-off loaders:
+
+45 datasets ≠ 45 loaders
+
+Instead:
+
+45 datasets
+→ dataset configs
+→ 6–8 reusable loader families
+→ common schema
+→ verified exports
+
